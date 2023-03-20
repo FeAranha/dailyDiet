@@ -4,3 +4,17 @@
 # Setup
 - npm i
 - npx expo start
+
+# Techs
+- React Navigation
+- AsyncStorage
+- Styled Components
+- SectionList
+
+# Features
+- Add new meal
+- Edit a meal
+- Delete a meal of list
+- Dashboard progress of diet
+- Stack Navigation
+- Local Storage
