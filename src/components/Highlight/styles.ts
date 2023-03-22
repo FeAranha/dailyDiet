@@ -4,7 +4,7 @@ import { ArrowUpRight } from "phosphor-react-native";
 export const Container = styled.View`
     width: 100%;
     padding: 20px;
-
+    margin-bottom: 40px;
     border-radius: 8px;
 
     background-color: ${({ theme }) => theme.COLORS.GREEN_LIGHT};

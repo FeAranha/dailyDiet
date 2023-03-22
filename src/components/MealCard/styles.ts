@@ -1,44 +1,60 @@
+import styled, {css} from "styled-components/native";
+import { TouchableOpacity } from 'react-native';
+import { ArrowLeft } from "phosphor-react-native";
 
-import { TouchableOpacity } from "react-native";
-import styled, { css } from "styled-components/native";
+export type ColorbackGround = 'GRAY_5' | 'GREEN_LIGHT' | 'RED_LIGHT'
+export type SpaceContet = 'center' | 'space-around' | 'space-between'
 
-export const Container = styled.View`
-    
-    width: 100%;
-    height: 100%;
+type Props = {
+  color: ColorbackGround
+}
 
-    margin-top: 40px;    
+type PropsContet = {
+  space: SpaceContet 
+}
+
+export const Container  = styled.View`
+  flex: 1;
 `;
 
-export const Content = styled(TouchableOpacity)`
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-
-    height: 50px;
-    margin-top: 8px;
-    
-    border: 1px solid ${({ theme }) => theme.COLORS.GRAY_5};
-    border-radius: 6px;
+export const Header = styled.View<Props>`
+  height:132px;
+  width:100% ;
+  background-color: ${({color, theme}) => theme.COLORS[color]};
+  justify-content: center ;
+  align-items: center ;
 `;
 
 export const Title = styled.Text`
-    
-    margin-top: 32px;
-
-    ${({ theme }) => css`
+  ${({ theme }) => css`
     font-size: ${theme.FONT_SIZE.LG}px;
-    font-family: ${theme.FONT_FAMILY.BOLD};
     color: ${theme.COLORS.GRAY_1};
-    `}
+    font-family: ${theme.FONT_FAMILY.BOLD};
+  `};
 `;
 
-export const Text = styled.Text`
-    margin-bottom: 8px;
+export const Button = styled(TouchableOpacity)`
+  width: 24px;
+  height: 24px;
+  position:absolute;
+  z-index:1 ;
+  left:24px;
+  align-self: flex-start;
+`;
 
-    ${({ theme }) => css`
-    font-size: ${theme.FONT_SIZE.MD}px;
-    font-family: ${theme.FONT_FAMILY.REGULAR};
-    color: ${theme.COLORS.GRAY_1};
-    `}
+export const Content = styled.View<PropsContet>`
+  flex:1;
+  padding:24px;
+  border-radius:20px;
+  background-color: ${({ theme }) => theme.COLORS.WHITE} ;
+  margin-top: -20px;
+  justify-content: ${({space}) => space ? space : 'flex-start'}
+`
+
+export const Icon = styled(ArrowLeft).attrs(({ theme })=> ({
+  size:24,
+  color: theme.COLORS.GRAY_2,
+  weight: 'bold'
+}))`
+  position:absolute;
 `;

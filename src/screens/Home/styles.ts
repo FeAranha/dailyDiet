@@ -15,3 +15,17 @@ export const Text = styled.Text`
     color: ${theme.COLORS.GRAY_1};
     `}
 `;
+
+export const HeaderSection = styled.View`
+  background-color: ${({ theme }) => theme.COLORS.WHITE};
+`;
+
+export const HeaderTitle = styled.Text`
+  ${({ theme }) => css`
+    font-size: ${theme.FONT_SIZE.LG}px;
+    color: ${theme.COLORS.GRAY_1};
+    font-family: ${theme.FONT_FAMILY.BOLD};
+    margin-top:32px;
+    margin-bottom:8px ;
+  `};
+`;

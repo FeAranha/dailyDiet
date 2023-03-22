@@ -1,20 +1,32 @@
-import { TouchableOpacityProps } from 'react-native'
-import * as S from "./styles";
+import React from "react";
+import { useNavigation } from '@react-navigation/native'
+import { View } from "react-native";
+import { Button, Container, Content, Header, Icon, Title, ColorbackGround, SpaceContet } from "./styles";
 
-type Props = TouchableOpacityProps & {
-    title?: string;
-    hour?: string;
-    meal?: string;
+type Props = {
+  children: React.ReactNode
+  title: string; 
+  color: ColorbackGround;
+  space?: SpaceContet;
 }
 
-export function MealCard({title, hour, meal,  ...rest}: Props) {
+export function CardMeals({ children, title, color, space }: Props) {
+  const navigation = useNavigation()
+
+  function handleGoBack() {
+    navigation.goBack()
+  }
   return (
-    <S.Container {...rest}>
-      <S.Title>{title}</S.Title>
-      <S.Content>
-        <S.Text>{hour}</S.Text>
-        <S.Text>{meal}</S.Text> 
-      </S.Content>
-    </S.Container>
-  );
+    <Container>
+      <Header color={color}>
+        <Button onPress={() => {handleGoBack()}}>
+          <Icon/>
+        </Button>
+        <Title>{title}</Title>
+      </Header>
+      <Content space={space}>
+        {children}
+      </Content>
+    </Container>
+  )
 }
