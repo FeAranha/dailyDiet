@@ -10,7 +10,7 @@ type Props = {
   space?: SpaceContet;
 }
 
-export function CardMeals({ children, title, color, space }: Props) {
+export function MealCard({ children, title, color, space }: Props) {
   const navigation = useNavigation()
 
   function handleGoBack() {

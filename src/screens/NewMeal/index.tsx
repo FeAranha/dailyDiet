@@ -4,7 +4,7 @@ import { useFocusEffect, useNavigation, useRoute } from "@react-navigation/nativ
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 import { Input } from "@components/Input";
-import { CardMeals } from "@components/MealCard";
+import { MealCard } from "@components/MealCard";
 import { Title } from "@components/Input/styles";
 import { ButtonCheck } from "@components/ButtonChecked";
 import { ButtonIcon } from "@components/ButtonIcon";
@@ -97,7 +97,7 @@ export function NewMeal() {
   );
 
   return (
-    <CardMeals title="Nova Refeição" color="GRAY_5" space="space-between">
+    <MealCard title="Nova Refeição" color="GRAY_5" space="space-between">
       
       {(datePicker || timePicker) && (
         <DateTimePicker
@@ -188,6 +188,6 @@ export function NewMeal() {
           onPress={() => handleSaveAndNextPage()}
         />
       )}
-    </CardMeals>
+    </MealCard>
   );
 }

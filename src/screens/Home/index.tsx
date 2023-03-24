@@ -25,6 +25,10 @@ export function Home() {
     navigation.navigate("newMeal", {id:''});
   }
 
+  function handleEditMeals(id:string) {
+    navigation.navigate('editMeals', {id})
+  }
+
     async function fetchMeals() {
     try {
       let meals = await StorageMeals.getAll()
@@ -62,7 +66,7 @@ export function Home() {
             time={item.time}
             title={item.name}
             status={item.isDiet}
-            // onPress={() => handleEditMeals(item.id)}
+            onPress={() => handleEditMeals(item.id)}
           />
         )}
         renderSectionHeader={({ section: { title } }) => (
