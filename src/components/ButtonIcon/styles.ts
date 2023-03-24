@@ -1,12 +1,10 @@
 import { TouchableOpacity } from 'react-native'
 import styled, {css} from "styled-components/native";
 
-
 type Props = {
   hasIcon?: boolean;
   dark: boolean;
 };
-
 
 export const Container = styled(TouchableOpacity)<Props>`
   min-height: 50px;
@@ -28,9 +26,4 @@ export const Title = styled.Text<Props>`
     font-family: ${theme.FONT_FAMILY.BOLD};
     margin-left: ${hasIcon ? '12px' : '0px'}
   `}
-`
-
-
-
-
-
+`;

@@ -1,16 +1,20 @@
+import React, { useCallback, useState } from "react";
+import { TouchableOpacity, View, Keyboard, Platform } from "react-native";
+import { useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
+import DateTimePicker from "@react-native-community/datetimepicker";
+
 import { Input } from "@components/Input";
 import { CardMeals } from "@components/MealCard";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import { useState } from "react";
-import { TouchableOpacity, View, Keyboard, Platform } from "react-native";
-//import DateTimePicker from "@react-native-community/datetimepicker";
 import { Title } from "@components/Input/styles";
-
-import * as S from "./styles";
 import { ButtonCheck } from "@components/ButtonChecked";
 import { ButtonIcon } from "@components/ButtonIcon";
 
-type TypeMode = "date" | "time";
+import StorageMeals, { MealsType } from "@storage/Meals";
+
+import * as S from "./styles";
+
+type TypeMode = "date" | "time"
+
 type RouteParams = {
   id: string;
 };
@@ -25,7 +29,22 @@ export function NewMeal() {
   const [name, setName] = useState("");
   const [description, setDescrition] = useState("");
   const [isDiet, setIsDiet] = useState(true);
-  //const { id } = route.params as RouteParams;
+  const { id } = route.params as RouteParams;
+
+  function handleSaveAndNextPage() {
+    const newid: string = new Date()
+      .toISOString()
+      .replace(/[^a-zA-Z0-9 ]/g, "");
+
+    let newMeals = { id: newid, name, description, date, time, isDiet };
+    StorageMeals.created(newMeals);
+    navigation.navigate("feedback", {isDiet});
+  }
+
+  function showDateTimePicker(type: TypeMode) {
+    if (type === "date") setDatePicker(true);
+    else setTimePicker(true);
+  }
 
   function onDateTimeSelected(event: any, value: any) {
     if (datePicker === true) {
@@ -48,34 +67,39 @@ export function NewMeal() {
     }
   }
 
-  function showDateTimePicker(type: TypeMode) {
-    if (type === "date") setDatePicker(true);
-    else setTimePicker(true);
-  }
-
   function handleSetDiet(value: string) {
     if (value === "istDiet") setIsDiet(true);
     else setIsDiet(false);
   }
 
-  async function handleUpdatedendNextPage(){
-    //let meals = {id, name, description, date, time, isDiet}
-    //await StorageMeals.updated(meals)
-    //navigation.navigate('feedback', {isDiet})
+  async function handleUpdatedendNextPage() {
+    let meals = { id, name, description, date, time, isDiet };
+    await StorageMeals.updated(meals);
+    navigation.navigate("feedback", { isDiet });
   }
-  
-  function handleSaveAndNextPage() {
-    const newid: string = new Date().toISOString().replace(/[^a-zA-Z0-9 ]/g, '')
 
-    let newMeals = {id: newid, name, description, date, time, isDiet}
-    //StorageMeals.created(newMeals)
-    //navigation.navigate('feedback', {isDiet})
+  async function fetchMeals() {
+    const meal = await StorageMeals.findOne(id);
+
+    setDate(meal?.date ? meal.date : "");
+    setTime(meal?.time ? meal.time : "");
+    setIsDiet(meal?.isDiet !== undefined ? meal.isDiet : false);
+    setDescrition(meal?.description ? meal.description : "");
+    setName(meal?.name ? meal.name : "");
   }
+
+  useFocusEffect(
+    useCallback(() => {
+      if (id) {
+        fetchMeals();
+      }
+    }, [])
+  );
 
   return (
     <CardMeals title="Nova Refeição" color="GRAY_5" space="space-between">
-
-      {/* {(datePicker || timePicker) && (
+      
+      {(datePicker || timePicker) && (
         <DateTimePicker
           value={datePicker ? new Date() : new Date(Date.now())}
           mode={datePicker ? "date" : "time"}
@@ -83,7 +107,7 @@ export function NewMeal() {
           is24Hour={true}
           onChange={onDateTimeSelected}
         />
-      )} */}
+      )}
 
       <Input
         title="Nome"
@@ -153,9 +177,9 @@ export function NewMeal() {
         </S.Container>
       </S.Container>
 
-      {/* {id ? (
+      {id ? (
         <ButtonIcon
-          title="Salvar alteração"
+          title="Salvar altração"
           onPress={() => handleUpdatedendNextPage()}
         />
       ) : (
@@ -163,8 +187,7 @@ export function NewMeal() {
           title="Cadastrar refeição"
           onPress={() => handleSaveAndNextPage()}
         />
-      )} */}
-      
+      )}
     </CardMeals>
   );
 }

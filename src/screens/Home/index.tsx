@@ -2,12 +2,14 @@ import { ButtonIcon } from "@components/ButtonIcon";
 import { Header } from "@components/Header";
 import { Highlight } from "@components/Highlight";
 import { MealSnack } from "@components/MealSnack";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { SectionList, Text } from "react-native";
 import * as S from "./styles";
 import StorageMeals, { MealsType } from "@storage/Meals";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { ListEmpty } from "@components/ListEmpty";
+import { Plus } from "phosphor-react-native";
+import { useTheme } from 'styled-components/native';
 
 type DataType = {
   title: string;
@@ -17,10 +19,25 @@ type DataType = {
 export function Home() {
   const [meals, setMeals] = useState<DataType[]>([]);
   const navigation = useNavigation();
+  const { COLORS } = useTheme();
 
   function handleNewMeal() {
-    navigation.navigate("new");
+    navigation.navigate("newMeal", {id:''});
   }
+
+    async function fetchMeals() {
+    try {
+      let meals = await StorageMeals.getAll()
+      const data = StorageMeals.indentList(meals, 'date')
+      setMeals(data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useFocusEffect(useCallback(()=>{
+    fetchMeals();
+  }, []))
 
   return (
     <S.Container>
@@ -30,7 +47,11 @@ export function Home() {
 
       <S.Text>Refeições</S.Text>
 
-      <ButtonIcon title="Nova Refeição" onPress={handleNewMeal} />
+      <ButtonIcon 
+        icon={ <Plus size={18} color={COLORS.WHITE}/> }
+        hasIcon
+        title="Nova Refeição" 
+        onPress={ () => handleNewMeal() } />
 
       <SectionList
         sections={meals}

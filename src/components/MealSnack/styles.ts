@@ -43,7 +43,7 @@ export const Subtitle = styled.Text`
     color: ${theme.COLORS.GRAY_1};
     font-family: ${theme.FONT_FAMILY.BOLD};
   `};
-`
+`;
 
 export const Status = styled.View<Props>`
   width:14px;
