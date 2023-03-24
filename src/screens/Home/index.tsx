@@ -17,7 +17,7 @@ type DataType = {
 };
 
 export function Home() {
-  const [meals, setMeals] = useState<DataType[]>([]);
+  const [data, setData] = useState<DataType[]>([]);
   const navigation = useNavigation();
   const { COLORS } = useTheme();
 
@@ -29,7 +29,7 @@ export function Home() {
     try {
       let meals = await StorageMeals.getAll()
       const data = StorageMeals.indentList(meals, 'date')
-      setMeals(data)
+      setData(data)
     } catch (error) {
       console.log(error)
     }
@@ -54,11 +54,12 @@ export function Home() {
         onPress={ () => handleNewMeal() } />
 
       <SectionList
-        sections={meals}
+        sections={data}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <MealSnack
             date={item.date}
+            time={item.time}
             title={item.name}
             status={item.isDiet}
             // onPress={() => handleEditMeals(item.id)}
@@ -69,7 +70,7 @@ export function Home() {
             <S.HeaderTitle>{title}</S.HeaderTitle>
           </S.HeaderSection>
         )}
-        contentContainerStyle={meals.length === 0 && { flex: 1 }}
+        contentContainerStyle={data.length === 0 && { flex: 1 }}
         ListEmptyComponent={() => (
           <ListEmpty message="Que tal cadastrar a primeira Refeição?" />
         )}

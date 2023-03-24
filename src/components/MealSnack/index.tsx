@@ -4,15 +4,16 @@ import { Container, Subtitle, Title, CardHeader, VerticalLine, Status  } from ".
 
 type Props = TouchableOpacityProps & {
   date:string;
+  time: string;
   title:string;
   status:boolean;
 }
 
-export function MealSnack({date, title, status, ...rest}: Props) {
+export function MealSnack({date, time, title, status, ...rest}: Props) {
   return (
     <Container {...rest}>
       <CardHeader>
-        <Subtitle>{date}</Subtitle>
+        <Subtitle>{time}</Subtitle>
         <VerticalLine></VerticalLine>
         <Title>{title}</Title>
       </CardHeader>
