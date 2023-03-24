@@ -1,6 +1,5 @@
 import { ButtonIcon } from "@components/ButtonIcon";
 import { Header } from "@components/Header";
-import { Highlight } from "@components/Highlight";
 import { MealSnack } from "@components/MealSnack";
 import { useCallback, useState } from "react";
 import { SectionList, Text } from "react-native";
@@ -10,6 +9,7 @@ import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { ListEmpty } from "@components/ListEmpty";
 import { Plus } from "phosphor-react-native";
 import { useTheme } from 'styled-components/native';
+import { HomeStatistic } from "@components/HomeStatistic";
 
 type DataType = {
   title: string;
@@ -29,6 +29,10 @@ export function Home() {
     navigation.navigate('editMeals', {id})
   }
 
+  function handleStatistic() {
+    navigation.navigate('statistic')
+  }
+
     async function fetchMeals() {
     try {
       let meals = await StorageMeals.getAll()
@@ -46,9 +50,7 @@ export function Home() {
   return (
     <S.Container>
       <Header />
-
-      <Highlight title="90, 86%" subtitle="das refeições dentro da dieta" />
-
+      <HomeStatistic onPress={() => handleStatistic()} /> 
       <S.Text>Refeições</S.Text>
 
       <ButtonIcon 
